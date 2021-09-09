@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='beets-importreplace',
-    version='0.1',
+    version='0.1.1',
     description='beets plugin to perform replacements on import metadata',
     long_description=open('README.md').read(),
     author='Edgars Supe',
