@@ -26,7 +26,7 @@ importreplace:
     replace:
         '[\u2018-\u201B]': ''''
         '[\u201C-\u201F]': '"'
-        '\u2010': '-'
+        '[\u2010-\u2015]': '-'
 ```
 * `item_fields` is a set of fields to run replacements on for items
 * `album_fields` is a set of fields to run replacements on for albums
