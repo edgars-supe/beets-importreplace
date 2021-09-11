@@ -22,7 +22,7 @@ counterparts.
 ```yaml
 importreplace:
     item_fields: title artist artist_sort artist_credit
-    album_fields: album artist artist_sort artist_credit
+    album_fields: album albumartist albumartist_sort albumartist_credit
     replace:
         '[\u2018-\u201B]': ''''
         '[\u201C-\u201F]': '"'
