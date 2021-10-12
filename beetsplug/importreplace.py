@@ -1,10 +1,7 @@
-import pprint
 import re
 from functools import reduce
 from re import Pattern
-from typing import Dict, Any
 
-import confuse as confuse
 from beets.autotag import TrackInfo, AlbumInfo
 from beets.plugins import BeetsPlugin
 
@@ -23,30 +20,35 @@ class ImportReplace(BeetsPlugin):
         for replacement in replacements:
             patterns = self._extract_patterns(replacement)
             if patterns:
-                self._extract_item_fields(patterns, replacement)
-                self._extract_album_fields(patterns, replacement)
+                if 'item_fields' in replacement.keys():
+                    self._extract_item_fields(
+                        patterns,
+                        replacement['item_fields'].as_str_seq())
+                if 'album_fields' in replacement.keys():
+                    self._extract_album_fields(
+                        patterns,
+                        replacement['album_fields'].as_str_seq())
 
-    def _extract_patterns(self, replacement) -> [(Pattern, str)]:
+    @staticmethod
+    def _extract_patterns(replacement) -> [(Pattern, str)]:
         patterns = []
         for pattern, repl in replacement['replace'].get(dict).items():
             patterns.append((re.compile(pattern), repl))
         return patterns
 
-    def _extract_item_fields(self, patterns, replacement):
-        if replacement['item_fields'].exists():
-            for item_field in replacement['item_fields'].as_str_seq():
-                if item_field in self._item_replacements.keys():
-                    self._item_replacements[item_field].extend(patterns)
-                else:
-                    self._item_replacements[item_field] = patterns
+    def _extract_item_fields(self, patterns, fields):
+        for field in fields:
+            if field in self._item_replacements.keys():
+                self._item_replacements[field].extend(patterns)
+            else:
+                self._item_replacements[field] = patterns
 
-    def _extract_album_fields(self, patterns, replacement):
-        if replacement['album_fields'].exists():
-            for album_field in replacement['album_fields'].as_str_seq():
-                if album_field in self._album_replacements.keys():
-                    self._album_replacements[album_field].extend(patterns)
-                else:
-                    self._album_replacements[album_field] = patterns
+    def _extract_album_fields(self, patterns, fields):
+        for field in fields:
+            if field in self._album_replacements.keys():
+                self._album_replacements[field].extend(patterns)
+            else:
+                self._album_replacements[field] = patterns
 
     def _trackinfo_received(self, info: TrackInfo):
         for field, replacements in self._item_replacements.items():

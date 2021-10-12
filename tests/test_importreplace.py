@@ -1,7 +1,6 @@
 import unittest
 
 import beets as beets
-import confuse as confuse
 from beets.autotag.hooks import AlbumInfo
 from beets.autotag.hooks import TrackInfo
 from beetsplug.importreplace import ImportReplace
@@ -90,7 +89,7 @@ class ImportReplaceTest(unittest.TestCase):
         self.assertEqual(album_info.tracks[0].artist, None)
 
     def test_replaces_in_order(self):
-        """Verify taht the plugin replaces fields in the order given in the
+        """Verify that the plugin replaces fields in the order given in the
         config."""
         self._add_replacement(item_fields=['title'], album_fields=['album'],
                               replace={'The': 'This'})
@@ -123,8 +122,6 @@ class ImportReplaceTest(unittest.TestCase):
     def test_no_fields(self):
         """Verify the plugin works when item_fields or album_fields not
         given."""
-        """Check if plugin replaces text in only the specified fields when
-        multiple replacements given."""
         self._add_replacement(item_fields=['title'],
                               replace={'The': 'A'})
         self._add_replacement(album_fields=['artist'],
