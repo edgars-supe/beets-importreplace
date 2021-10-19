@@ -1,6 +1,6 @@
 # Changelog
 
-### 0.2 (TBD)
+### 0.2 (2021-10-19)
 
 * Added ability to specify per-field replacements (see
   [configuration](README.md#configuration) for more info; not backwards
