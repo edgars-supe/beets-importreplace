@@ -17,7 +17,7 @@ configuration won't work for this, because it only acts on filenames.
 Install the plugin using `pip`:
 
 ```shell
-pip install git+git://github.com/edgars-supe/beets-importreplace.git
+pip install git+https://github.com/edgars-supe/beets-importreplace.git
 ```
 
 Then, [configure](#configuration) the plugin in your
