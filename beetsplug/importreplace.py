@@ -68,9 +68,11 @@ class ImportReplace(BeetsPlugin):
         for track in info.tracks:
             self._trackinfo_received(track)
 
-    def _replace_field(self, text: str, replacements: [(Pattern, str)]) -> str:
-
-        return reduce(self._replace, replacements, text)
+    def _replace_field(self, text: str|list, replacements: [(Pattern, str)]) -> str|list:
+        if isinstance(text, list):
+            return list(map(lambda item: reduce(self._replace, replacements, item), text))
+        else:
+            return reduce(self._replace, replacements, text)
 
     def _replace(self, text: str, replacement: (Pattern, str)) -> str:
         return replacement[0].sub(repl=replacement[1], string=text)
