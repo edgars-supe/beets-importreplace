@@ -11,5 +11,5 @@ setup(
     license='MIT',
     platforms='ALL',
     packages=['beetsplug'],
-    install_requires=['beets>=1.4.7'],
+    install_requires=['beets>=1.5.0'],
 )
