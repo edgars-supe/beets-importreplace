@@ -12,4 +12,5 @@ setup(
     platforms='ALL',
     packages=['beetsplug'],
     install_requires=['beets>=1.5.0'],
+    python_requires='>=3.7'
 )
