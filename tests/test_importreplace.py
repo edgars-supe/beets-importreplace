@@ -5,6 +5,7 @@ from beets.autotag.hooks import AlbumInfo
 from beets.autotag.hooks import TrackInfo
 from beetsplug.importreplace import ImportReplace
 
+# multi-valued tags was added in beets v2.0.0 (#4743)
 
 class ImportReplaceTest(unittest.TestCase):
 
@@ -17,21 +18,40 @@ class ImportReplaceTest(unittest.TestCase):
     def _create_track_info(self, title: str = None, artist: str = None,
                            artist_sort: str = None, artist_credit: str = None,
                            artists: [str]= None, artists_sort: [str] = None,
-                           artists_credit: [str] = None):
-        return TrackInfo(title=title, artist=artist, artist_sort=artist_sort,
-                         artist_credit=artist_credit, artists=artists,
-                         artists_sort=artists_sort,
-                         artists_credit=artists_credit)
+                           artists_credit: [str] = None, track_id: str = None):
+        try:
+            return TrackInfo(title=title, track_id=track_id, artist=artist,
+                             artist_sort=artist_sort,
+                             artist_credit=artist_credit, artists=artists,
+                             artists_sort=artists_sort,
+                             artists_credit=artists_credit)
+        except TypeError:
+            # beets <1.5.0 uses positional arguments
+            return TrackInfo(title, track_id, artist=artist,
+                             artist_sort=artist_sort,
+                             artist_credit=artist_credit)
 
     def _create_album_info(self, tracks: [TrackInfo] = None, album: str = None,
                            artist: str = None, artist_sort: str = None,
                            artist_credit: str = None, artists: [str] = None,
                            artists_sort: [str] = None,
-                           artists_credit: [str] = None):
-        return AlbumInfo(tracks=tracks or [], album=album, artist=artist,
-                         artist_sort=artist_sort, artist_credit=artist_credit,
-                         artists=artists, artists_sort=artists_sort,
-                         artists_credit=artists_credit)
+                           artists_credit: [str] = None, album_id: str = None,
+                           artist_id: str = None):
+        album_info = None
+        try:
+            album_info = AlbumInfo(album=album, album_id=album_id, artist=artist,
+                                   artist_id=artist_id, tracks=tracks or [],
+                                   artist_sort=artist_sort,
+                                   artist_credit=artist_credit,
+                                   artists=artists, artists_sort=artists_sort,
+                                   artists_credit=artists_credit)
+        except TypeError as e:
+            # beets <1.5.0 uses positional arguments
+            album_info = AlbumInfo(album, album_id, artist, artist_id,
+                                   tracks=tracks or [], artist_sort=artist_sort,
+                                   artist_credit=artist_credit)
+        finally:
+            return album_info
 
     def _add_replacement(self, item_fields: [str] = None,
                          album_fields: [str] = None,
