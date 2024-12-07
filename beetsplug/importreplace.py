@@ -1,6 +1,11 @@
 import re
 from functools import reduce
-from re import Pattern
+try:
+    from re import Pattern
+except ImportError:
+    # re.Pattern was introduced in Python 3.7
+    from sre_parse import Pattern
+from typing import Union
 
 from beets.autotag import TrackInfo, AlbumInfo
 from beets.plugins import BeetsPlugin
@@ -68,9 +73,9 @@ class ImportReplace(BeetsPlugin):
         for track in info.tracks:
             self._trackinfo_received(track)
 
-    def _replace_field(self, text: str|list, replacements: [(Pattern, str)]) -> str|list:
+    def _replace_field(self, text: Union[str, list], replacements: [(Pattern, str)]) -> Union[str, list]:
         if isinstance(text, list):
-            return list(map(lambda item: reduce(self._replace, replacements, item), text))
+            return list(map(lambda item: self._replace_field(item, replacements), text))
         else:
             return reduce(self._replace, replacements, text)
 
