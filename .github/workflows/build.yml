@@ -8,6 +8,9 @@ on:
     branches: ["master"]
   pull_request:
 
+permissions:
+  checks: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
