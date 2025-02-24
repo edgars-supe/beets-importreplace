@@ -8,13 +8,16 @@ on:
     branches: ["master"]
   pull_request:
 
+permissions:
+  checks: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.8", "3.9", "3.10", "3.11"]
+        python: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         beets: ["1.5.0", "1.6.0", "2.0.0", "2.1.0", "2.2.0"]
     steps:
     - uses: actions/checkout@v4
