@@ -26,6 +26,14 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install pytest
         pip install ./
-    - name: Test with pytest
-      run: |
-        pytest
+    - name: Run tests
+      run: pytest --junit-xml=test-results.xml
+    - name: Check test report
+      if: always()
+      uses: pmeier/pytest-results-action@main
+      with:
+        path: test-results.xml
+        summary: true
+        display-options: fEX
+        fail-on-empty: true
+        title: Test results
