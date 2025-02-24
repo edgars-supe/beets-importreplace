@@ -14,8 +14,8 @@ _ = setup(
     platforms="ALL",
     packages=["beetsplug"],
     install_requires=[
-        "beets>=2.2.0",
+        "beets>=1.5.0",
         "typing-extensions" if sys.version_info < (3, 12) else "",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.7",
 )
