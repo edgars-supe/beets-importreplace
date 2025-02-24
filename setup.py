@@ -1,6 +1,8 @@
+import sys
+
 from setuptools import setup
 
-setup(
+_ = setup(
     name="beets-importreplace",
     version="0.2",
     description="beets plugin to perform replacements on import metadata",
@@ -11,6 +13,9 @@ setup(
     license="MIT",
     platforms="ALL",
     packages=["beetsplug"],
-    install_requires=["beets>=2.2.0"],
+    install_requires=[
+        "beets>=2.2.0",
+        "typing-extensions" if sys.version_info < (3, 12) else "",
+    ],
     python_requires=">=3.8",
 )
